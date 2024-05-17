@@ -1,0 +1,30 @@
+<h1>Sample Toggle</h1>
+
+<div class="capabilities">
+  <%  DataDimensions::CAPABILITY_RELATIONSHIPS.keys.each do |rel_key| %>
+    <div class="capability">
+      <span style="margin-bottom: 5px;">
+        <h2><%= DataDimensions.capability_display_name(rel_key) %></h2>
+      </span>
+
+      <div class="sub-capabilities" style="margin-left: 20px;">
+        <% DataDimensions.sub_capabilities_for(rel_key).each do |sub_key|  %>
+          <span class="sub-capability">
+            <h3><%= DataDimensions.sub_capability_display_name(sub_key) %></h3>
+          </span>
+
+          <div class="sub-capability-levels" style="margin-left: 30px;">
+            <% DataDimensions.sub_capability_levels_for(sub_key).each do |sub_level_key, sub_level_value| %>
+              <span class="sub-capability-level">
+                <p>
+                  <em><%= sub_level_key %></em><br>
+                  <%= sub_level_value %>
+                </p>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
