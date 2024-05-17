@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+ .hidden {
+  display: none;
+ }
+
+ .accordion-selector {
+  display: block;
+  padding: 1em 1em;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.accordion-panel {
+  margin-left: 20px;
+}

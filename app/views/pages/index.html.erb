@@ -1,26 +1,52 @@
-<h1>Sample Toggle</h1>
+<h1>Sample Accordion for Toggle</h1>
 
-<div class="capabilities">
+<div class="capabilities" data-controller="accordion" data-accordion-collapse-class="hidden">
   <%  DataDimensions::CAPABILITY_RELATIONSHIPS.keys.each do |rel_key| %>
     <div class="capability">
-      <span style="margin-bottom: 5px;">
-        <h2><%= DataDimensions.capability_display_name(rel_key) %></h2>
-      </span>
+      <h2>
+        <button type="button"
+                id="<%= rel_key %>-capability-selector"
+                class="accordion-selector"
+                aria-expanded="false"
+                aria-controls="<%= rel_key %>-sub-capabilities"
+                data-accordion-panel-id-param="<%= rel_key %>-sub-capabilities"
+                data-action="click->accordion#togglePanel"
+                data-accordion-target="toggleSelector">
+          <%= DataDimensions.capability_display_name(rel_key) %>
+        </button>
+      </h2>
 
-      <div class="sub-capabilities" style="margin-left: 20px;">
+      <div  id="<%= rel_key %>-sub-capabilities"
+            class="sub-capabilities accordion-panel"
+            role="region"
+            aria-labelledby="<%= rel_key %>-capability-selector"
+            data-accordion-target="panel">
         <% DataDimensions.sub_capabilities_for(rel_key).each do |sub_key|  %>
-          <span class="sub-capability">
-            <h3><%= DataDimensions.sub_capability_display_name(sub_key) %></h3>
-          </span>
+          <h3>
+            <button type="button"
+                id="<%= rel_key %>-<% sub_key %>-sub-capability-selector"
+                class="accordion-selector"
+                aria-expanded="false"
+                aria-controls="<%= rel_key %>-<%= sub_key %>-sub-capability-levels"
+                data-accordion-panel-id-param="<%= rel_key %>-<%= sub_key %>-sub-capability-levels"
+                data-action="click->accordion#togglePanel"
+                data-accordion-target="toggleSelector">
+                <%= DataDimensions.sub_capability_display_name(sub_key) %>
+              </button>
+          </h3>
 
-          <div class="sub-capability-levels" style="margin-left: 30px;">
+          <div  id="<%= rel_key %>-<%= sub_key %>-sub-capability-levels"
+                class="sub-capability-levels accordion-panel"
+                role="region"
+                aria-labelledby="<%= rel_key %>-<% sub_key %>-sub-capability-selector"
+                data-accordion-target="panel">
             <% DataDimensions.sub_capability_levels_for(sub_key).each do |sub_level_key, sub_level_value| %>
-              <span class="sub-capability-level">
+              <div class="sub-capability-level">
                 <p>
                   <em><%= sub_level_key %></em><br>
                   <%= sub_level_value %>
                 </p>
-              </span>
+              </div>
             <% end %>
           </div>
         <% end %>
