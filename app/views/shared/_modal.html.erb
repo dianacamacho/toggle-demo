@@ -1,0 +1,33 @@
+<%= turbo_frame_tag(local_assigns[:turbo_frame_id] || "turbo-modal") do %>
+  <div  data-controller="modal-dialog"
+        data-modal-dialog-auto-open-value="<%= local_assigns[:auto_open] %>"
+        id="<%= local_assigns[:modal_id] %>">
+    <% unless local_assigns[:exclude_open].presence %>
+      <button type="button" data-action="modal-dialog#open" class="btn-outline">
+        <%= local_assigns[:open_text] || "Open" %>
+      </button>
+    <% end %>
+
+    <dialog data-modal-dialog-target="modal" id="<%= local_assigns[:dialog_id] %>">
+      <% unless local_assigns[:exclude_close].presence %>
+        <button type="button" data-action="modal-dialog#close" class="close" value="cancel" aria-label="Close modal">
+          <%= image_tag("close-x.svg", alt: "") %>
+        </button>
+      <% end %>
+
+      <% if local_assigns[:title].presence %>
+        <div class="modal-banner-header">
+          <h2><%= title %></h2>
+        </div>
+      <% end %>
+
+      <div data-modal-dialog-target="modalContent" class="<%= local_assigns.fetch(:content_class, 'modal-content') %>">
+        <% if local_assigns[:content].presence %>
+          <p><%= content %></p>
+        <% else %>
+          <%= yield %>
+        <% end %>
+      </div>
+    </dialog>
+  </div>
+<% end %>

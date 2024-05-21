@@ -1,5 +1,7 @@
 <h1>Sample Accordion for Toggle</h1>
 
+<%#= turbo_frame_tag "goal-modal" %>
+
 <div class="capabilities" data-controller="accordion" data-accordion-collapse-class="hidden">
   <%  DataDimensions::CAPABILITY_RELATIONSHIPS.keys.each do |rel_key| %>
     <div class="capability">
@@ -46,6 +48,21 @@
                   <em><%= sub_level_key %></em><br>
                   <%= sub_level_value %>
                 </p>
+
+                <div>
+                  <%= render(
+                    layout: "shared/modal",
+                    locals: {
+                      turbo_frame_id: "#{rel_key}-#{sub_key}-#{sub_level_key}-modal",
+                      auto_open: false,
+                      exclude_open: false,
+                      exclude_close: false,
+                      open_text: "Add Goal",
+                      title: "#{sub_level_value} Modal",
+                    }) do %>
+                      <p>some specific form content here</p>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -54,3 +71,5 @@
     </div>
   <% end %>
 </div>
+
+
